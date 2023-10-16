@@ -18,7 +18,7 @@ public class AuthConfig {
 			 
 			http.csrf().disable()
 				.authorizeHttpRequests()
-				.requestMatchers("/api/pizzeria/**").permitAll()
+				.requestMatchers("/api/pizzas/**").permitAll()
 		        .requestMatchers("/pizzas/create").hasAuthority("admin")
 		        .requestMatchers("/pizzas/update/**").hasAuthority("admin")
 		        .requestMatchers("/pizzas/delete/**").hasAuthority("admin")
