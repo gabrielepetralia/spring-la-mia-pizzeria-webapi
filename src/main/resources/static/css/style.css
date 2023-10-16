@@ -1,0 +1,63 @@
+@charset "ISO-8859-1";
+
+.banner {
+	height: 100px;
+	background-color: white;
+	background-image: url('/imgs/pizza-logo.png');;
+}
+
+.pizza-card {
+	border-radius: 15px;
+	overflow: hidden;
+}
+
+.pizza-card h5 {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.pizza-img {
+	height: 200px;
+	border: 0;
+	overflow: hidden;
+}
+
+.pizza-img img {
+	height: 100%;
+	max-width: none;
+	transition: all 0.3s;
+}
+
+.pizza-img:hover img {
+	transform: scale(1.1);
+}
+
+.pizza-index-img {
+	border-radius: 15px;
+	overflow: hidden;
+	width: 300px;
+}
+
+.pizza-index-img img {
+	max-width: 100%;
+}
+
+.search-pizza {
+	width: 300px;
+}
+
+.search-pizza input:focus {
+    box-shadow: none;
+    border: none;
+    outline: none;
+}
+
+.my-form {
+	background-color: white;
+	width: 400px;
+	padding: 20px 50px;
+	border-radius: 15px;
+}
+
+

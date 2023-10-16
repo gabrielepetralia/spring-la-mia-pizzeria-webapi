@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:replace="~{frags :: head}" />
+</head>
+<body class="bg-dark text-white">
+	<header th:replace="~{frags :: header}"></header>
+	
+	<div th:object="${pizza}" class="d-flex align-items-center flex-column mb-5">
+		<h1 class="text-danger mb-4">[[*{name}]]</h1>
+		<div class="pizza-index-img mb-4">
+			<img alt="" th:src="*{imgUrl}" onerror="this.src='/imgs/noimage.png'">
+		</div>
+		<div class="mb-3 d-flex" sec:authorize="hasAnyAuthority('admin')">
+			<a th:href="@{/pizzas/update/{id}(id=*{id})}" class="btn btn-secondary me-2" title="Modifica pizza"><i class="fa-solid fa-pen-to-square"></i></a>
+			<form 
+				th:action="@{/pizzas/delete/{id}(id=*{id})}" 
+				method="POST"
+				style="display: inline;"
+			>
+		 	 	<button type="submit" class="btn btn-danger" title="Elimina pizza"><i class="fa-solid fa-trash"></i></button>
+			</form>
+		</div>
+		<p><span class="text-danger fw-semibold fs-5">Descrizione :</span> [[*{description}]]</p>
+		<p class="mb-3"><span class="text-danger fw-semibold fs-5">Prezzo :</span> [[*{getFormattedPrice()}]]€</p>
+		
+		<div th:if="*{specialOffers.size() < 1}" class="mb-3">
+			<span class="text-danger fw-semibold fs-5">Non ci sono offerte</span>
+		</div>
+		<div th:if="*{specialOffers.size() > 0}">
+			<div class="d-flex mb-2">
+				<div sec:authorize="hasAnyAuthority('admin')">
+					<a th:href="@{/pizzas/special-offer/{pizza_id}(pizza_id=*{id})}" class="btn btn-secondary me-2" title="Aggiungi una nuova offerta"><i class="fa-solid fa-plus"></i></a>
+				</div>
+				<span class="text-danger fw-semibold fs-5">Offerte :</span>
+			</div>
+			<ul class="list-unstyled">
+				<li
+				th:each="specialOffer : *{specialOffers}"
+				th:object="${specialOffer}"
+				class="d-flex justify-content-between my-2"
+				>
+					<span>- [[*{title}]]</span>
+					<div sec:authorize="hasAnyAuthority('admin')" class="d-flex justify-content-end ms-2">
+						<a th:href="@{/pizzas/special-offer/update/{id}(id=*{id})}" class="btn btn-secondary me-2" title="Modifica offerta"><i class="fa-solid fa-pen-to-square"></i></a>
+						<form 
+							th:action="@{/pizzas/special-offer/delete/{specialOffer_id}(specialOffer_id=*{id})}" 
+							method="POST"
+						>
+					 	 	<button type="submit" class="btn btn-danger" title="Elimina offerta"><i class="fa-solid fa-trash"></i></button>
+						</form>
+					</div>
+				</li>
+			</ul>
+		</div>	
+		
+			<div th:if="*{ingredients.size() < 1}">
+				<span class="text-danger fw-semibold fs-5">Ingredienti non disponibili</span>
+			</div>
+			<div th:if="*{ingredients.size() > 0}">
+				<span class="text-danger fw-semibold fs-5">Ingredienti :</span>
+				<ul class="list-unstyled">
+					<li
+					th:each="ingredient : *{ingredients}"
+					th:object="${ingredient}"
+					class="d-flex justify-content-between my-2"
+					>
+						<span>- [[*{name}]]</span>
+					</li>
+				</ul>
+			</div>
+		
+		<a href="/pizzas" class="btn btn-danger mt-5">Torna al Menù</a>
+	</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:replace="~{frags :: head}" />
+</head>
+<body class="bg-dark text-white">
+
+	<header th:replace="~{frags :: header}"></header>
+	
+	<div th:object="${pizza}" class="d-flex align-items-center flex-column mb-5">
+		<div class="d-flex justify-content-around w-100">
+			<div></div>
+			<h1 class="text-danger mb-4">Lista Ingredienti</h1>
+			<div>
+				<a href="/ingredients/create" class="btn btn-danger" title="Aggiungi un nuovo ingrediente"><i class="fa-solid fa-plus"></i></a>
+			</div>
+		</div>
+		
+		<ul class="list-unstyled">
+			<li
+				th:each="ingredient : ${ingredients}"
+				th:object="${ingredient}"
+				class="text-center d-flex justify-content-between my-2"
+			>
+				<span class="me-3">- [[*{name}]]</span>
+				<form
+					th:action="@{/ingredients/delete/{id}(id=*{id})}" 
+					method="POST"
+				>
+			 	 	<button type="submit" class="btn btn-danger" title="Elimina ingrediente"><i class="fa-solid fa-trash"></i></button>
+				</form>
+			</li>
+		</ul>
+		
+		<a href="/pizzas" class="btn btn-danger mt-5">Torna al Menù</a>
+	</div>	
+	
+</body>
+</html>

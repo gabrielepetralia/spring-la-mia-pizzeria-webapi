@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head">
+	<meta charset="ISO-8859-1">
+	
+	<!-- Bootstrap CSS & JS -->
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}"/>
+	<script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+	
+	<!-- Fontawesome -->
+	<link rel="stylesheet" th:href="@{/webjars/font-awesome/6.4.0/css/all.min.css}">
+	
+	<link rel="stylesheet" th:href="@{/css/style.css}" >
+	<link rel="icon" type="image/png" th:href="@{/imgs/pizza-logo.png}">
+	
+	<title>Pizzeria Java Spring</title>
+</head>
+
+<header th:fragment="header" class="bg-dark text-white">
+	<div class="d-flex justify-content-around align-items-center">
+		<div></div>
+		
+		<h1 class="text-center py-4">Pizzeria <span class="text-danger">Java Spring</span></h1>
+		
+		<div>
+			<div sec:authorize="hasAnyAuthority('user', 'admin')">
+				<span sec:authentication="name" class="me-3"></span> 
+				<a href="/logout" class="btn btn-danger">Logout</a>
+			</div>
+			
+			<div sec:authorize="!hasAnyAuthority('user', 'admin')">
+				<a href="/login" class="btn btn-danger">Login</a>
+			</div>
+		</div>
+	
+	</div>
+	
+	<div class="banner d-flex justify-content-center mb-5"></div>
+</header>
+
+</html>

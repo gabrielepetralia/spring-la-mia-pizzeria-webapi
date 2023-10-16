@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:replace="~{frags :: head}" />
+</head>
+<body class="bg-dark text-white">
+
+	<header th:replace="~{frags :: header}"></header>
+	
+	
+	<div class="d-flex align-items-center flex-column mb-5">
+		<form class="my-form text-secondary mb-5 fw-semibold" th:object="${pizza}" method="POST">
+			<h4 th:if="${pizza.id > 0}" class="text-center text-danger py-3">Modifica la pizza</h4>
+			<h4 th:unless="${pizza.id > 0}" class="text-center text-danger py-3">Aggiungi una nuova pizza</h4>
+			  	<div class="mb-3">
+				  	<label for="name" class="form-label">Nome</label>
+			  		<input type="text" class="form-control" id="name" name="name" th:field="*{name}">
+			 		<div th:if="${#fields.hasErrors('name')}">
+						<ul class="mt-2">
+					   		<li th:each="err : ${#fields.errors('name')}" th:text="${err}" class="fw-normal text-danger"></li>
+						</ul>
+					</div>
+				</div>
+				<div class="mb-3">
+				  	<label for="description" class="form-label">Descrizione</label>
+				  	<textarea class="form-control" id="description" name="description" th:field="*{description}"></textarea>
+				  	<div th:if="${#fields.hasErrors('description')}">
+						<ul class="mt-2">
+					   		<li th:each="err : ${#fields.errors('description')}" th:text="${err}" class="fw-normal text-danger"></li>
+						</ul>
+					</div>
+				</div>
+				<div class="mb-3">
+					 <label for="imgUrl" class="form-label">URL Immagine</label>
+					 <input type="text" class="form-control" id="imgUrl" name="imgUrl" th:field="*{imgUrl}">
+					 <div th:if="${#fields.hasErrors('imgUrl')}">
+						<ul class="mt-2">
+					   		<li th:each="err : ${#fields.errors('imgUrl')}" th:text="${err}" class="fw-normal text-danger"></li>
+						</ul>
+					</div>
+				</div>
+				<div class="mb-4">
+				  	<label for="price" class="form-label">Prezzo</label>
+				  	<input type="number" step="0.10" min="0.00" class="form-control" id="price" name="price" th:field="*{price}">
+				  	<div th:if="${#fields.hasErrors('price')}">
+						<ul class="mt-2">
+					   		<li th:each="err : ${#fields.errors('price')}" th:text="${err}" class="fw-normal text-danger"></li>
+						</ul>
+					</div>
+				</div>
+				<span>Ingredienti :</span>
+				<div
+					th:each="ingredient : ${ingredients}"
+					th:object="${ingredient}"
+					class="form-check"
+				>
+					<input 
+						type="checkbox" 
+						th:id="${'ingredients-' + ingredient.id}"
+						th:value="*{id}"
+						th:field="${pizza.ingredients}"
+						class="form-check-input"
+					>
+					<label
+						th:for="${'ingredients-' + ingredient.id}"
+						class="form-check-label"
+					>
+						[[*{name}]]
+					</label>
+				</div>
+			  <div class="d-flex justify-content-end">
+			 	 <button type="submit" class="btn btn-danger"><i class="fa-solid fa-floppy-disk"></i></button>
+			  </div>
+		</form>
+		
+		<a href="/pizzas" class="btn btn-danger">Torna al Menù</a>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:replace="~{frags :: head}" />
+</head>
+<body class="bg-dark text-white">
+
+	<header th:replace="~{frags :: header}"></header>
+	
+	<div class="d-flex justify-content-around mb-4">
+		<div sec:authorize="hasAnyAuthority('admin')">
+			<a href="/ingredients" class="btn btn-danger">Ingredienti</a>
+		</div>
+		
+		<form>
+			<div class="input-group mb-3 search-pizza">
+			  <input type="text" class="form-control" placeholder="Cerca una pizza" aria-label="Recipient's username" name="name" th:value="${name}">
+			  <button class="btn btn-danger" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+			</div>
+		</form>
+		
+		<div sec:authorize="hasAnyAuthority('admin')">
+			<a href="/pizzas/create" class="btn btn-danger" title="Aggiungi una nuova pizza"><i class="fa-solid fa-plus"></i></a>
+		</div>
+	</div>
+		
+	<div class="container">
+		<div class="row row-cols-5 mb-5" th:if="${pizzas.size()> 0}">
+			<div th:each="pizza : ${pizzas}" th:object="${pizza}" class="col mb-5">
+				<a th:href="@{/pizzas/{id}(id=*{id})}" class="card pizza-card border-0 text-decoration-none">
+					<div class="pizza-img">
+						<img th:src="*{imgUrl}" onerror="this.src='/imgs/noimage.png'" class="card-img-top">
+					</div>
+				  	<div class="pizza-txt p-3 d-flex justify-content-between">
+				  		<h5 class="card-title text-danger mb-0">[[*{name}]]</h5>
+				  		<p class="mb-0 fw-semibold text-secondary"><span class="fs-5">[[*{getFormattedPrice()}]]</span>€</p>
+				  	</div>
+				</a>
+				<div sec:authorize="hasAnyAuthority('admin')" class="mt-2 d-flex justify-content-end">
+					<a th:href="@{/pizzas/update/{id}(id=*{id})}" class="btn btn-secondary me-2" title="Modifica pizza"><i class="fa-solid fa-pen-to-square"></i></a>
+					<form 
+						th:action="@{/pizzas/delete/{id}(id=*{id})}" 
+						method="POST"
+						style="display: inline;"
+					>
+				 	 	<button type="submit" class="btn btn-danger" title="Elimina pizza"><i class="fa-solid fa-trash"></i></button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>	
+		
+		
+	<p th:unless="${pizzas.size()> 0}" class="text-center text-danger fs-3 fw-semibold">Non ci sono pizze!</p>	
+</body>
+</html>
