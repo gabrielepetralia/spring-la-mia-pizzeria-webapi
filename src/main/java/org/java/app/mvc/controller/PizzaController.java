@@ -49,7 +49,7 @@ public class PizzaController {
 	@GetMapping("/{id}")
 	public String getShow(@PathVariable int id, Model model) {
 		
-		Pizza pizza = pizzaService.findById(id);
+		Pizza pizza = pizzaService.findById(id).get();
 		model.addAttribute("pizza", pizza);
 		
 		return "pizza-show";
@@ -104,7 +104,7 @@ public class PizzaController {
 			Model model
 		) {
 		List<Ingredient> ingredients = ingredientService.findAll();
-		Pizza pizza = pizzaService.findById(id);
+		Pizza pizza = pizzaService.findById(id).get();
 		
 		model.addAttribute("pizza", pizza);
 		model.addAttribute("ingredients", ingredients);
@@ -138,7 +138,7 @@ public class PizzaController {
 	
 	@PostMapping("/delete/{id}")
 	public String deletePizza(@PathVariable int id) {
-		Pizza pizza = pizzaService.findById(id);
+		Pizza pizza = pizzaService.findById(id).get();
 		
 		List<SpecialOffer> specialOffers = specialOfferService.findByPizza(pizza);
 	    for (SpecialOffer specialOffer : specialOffers) {
@@ -158,7 +158,7 @@ public class PizzaController {
 			Model model
 			) {
 		
-		Pizza pizza = pizzaService.findById(id);
+		Pizza pizza = pizzaService.findById(id).get();
 		SpecialOffer specialOffer = new SpecialOffer();
 		
 		model.addAttribute("pizza", pizza);		
@@ -176,7 +176,7 @@ public class PizzaController {
 			Model model
 		) {
 		
-		Pizza pizza = pizzaService.findById(id);
+		Pizza pizza = pizzaService.findById(id).get();
 		
 		specialOffer.setPizza(pizza);
 		
